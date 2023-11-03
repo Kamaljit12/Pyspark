@@ -25,11 +25,11 @@ provides an interface for programming entire clusters with implicit data paralle
 for its speed, ease of use, and versatility in handling multiple types of data workloads, including batch processing, 
 real-time data streaming, machine learning, and interactive queries. <br>
 
-![image](https://github.com/Kamaljit12/Pyspark/assets/89628021/d90f286a-7425-4189-9ee2-c66174e292c2)
+<img src = https://github.com/Kamaljit12/Pyspark/blob/main/images/Spark_streaming.png>
 
 # Features Of Spark
 
-![image](https://github.com/Kamaljit12/Pyspark/assets/89628021/bea58010-518e-4012-ba6e-46b4154ced80)
+<img src = https://github.com/Kamaljit12/Pyspark/blob/main/images/feature_of_spark.png>
 
 # Features Of Spark
 ### 1. Speed: 
@@ -50,7 +50,8 @@ written in any of these. It also offers a shell in Scala and Python.
 ### 6. Scalability: 
 - Spark's design is inherently scalable, capable of handling and processing large amounts of data by 
 distributing tasks across multiple nodes in a cluster.
-![image](https://github.com/Kamaljit12/Pyspark/assets/89628021/a3d2d377-0a80-4e6c-bd5a-a2bdc8c09bb5)
+
+<img src = https://github.com/Kamaljit12/Pyspark/blob/main/images/spark_ecosystem.png>
 
 
 # Spark Ecosystem
@@ -129,7 +130,8 @@ and the default block size of the file system. In general, each partition corres
 
 # How Spark Perform Data Partitioning?
 
-![image](https://github.com/Kamaljit12/Pyspark/assets/89628021/889d3efd-37d7-4b86-878c-f5ff7bdb5aeb)
+<img src = https://github.com/Kamaljit12/Pyspark/blob/main/images/partitoning.png>
+
 
 # Transformation in Spark
 ### In Spark, a transformation is an operation applied on an RDD (Resilient Distributed Dataset) or DataFrame/Dataset to create a  new RDD or DataFrame/Dataset. Transformations in Spark are categorized into two types: narrow and wide transformations. Narrow Transformations: In these transformations, all elements that are required to compute the records in a single partition live in the same partition of the parent RDD. Data doesn't need to be shuffled across partitions. Examples include:
@@ -147,13 +149,13 @@ RDD.
 - coalesce(): Decreases the number of partitions in the RDD.
 - repartition(): Increases the number of partitions in the RDD.
 # Transformation in Spark
-![image](https://github.com/Kamaljit12/Pyspark/assets/89628021/9eec45ac-e71c-4450-8946-54c7e670fc08)
+<img src = https://github.com/Kamaljit12/Pyspark/blob/main/images/transformation_1.png>
 
-![image](https://github.com/Kamaljit12/Pyspark/assets/89628021/3b1d70ad-4330-4b89-89ff-c786ab4b3576)
+<img src = https://github.com/Kamaljit12/Pyspark/blob/main/images/transformation_2.png>
 
-![image](https://github.com/Kamaljit12/Pyspark/assets/89628021/f95e47ad-e87c-4c76-9693-7679a68f0f94)
+<img src = https://github.com/Kamaljit12/Pyspark/blob/main/images/transformation_3.png>
 
-![image](https://github.com/Kamaljit12/Pyspark/assets/89628021/0faca298-7741-4e53-b101-04f7112f75d0)
+<img src = https://github.com/Kamaljit12/Pyspark/blob/main/images/transformation_4.png>
 
 # Action in Spark
 ### Actions in Apache Spark are operations that provide non-RDD values; they return a final value to the driver program or write data to an external system. Actions trigger the execution of the transformation operations accumulated in the Directed Acyclic Graph (DAG).
@@ -168,7 +170,7 @@ debugging, but be careful with large datasets to avoid out-of-memory errors.
 in the local filesystem, HDFS, or any other Hadoop-supported file system.
 - SaveAsSequenceFile: This action is used to save RDDs, which consist of key/value pairs, in SequenceFile format.
 # Action in Spark
-![image](https://github.com/Kamaljit12/Pyspark/assets/89628021/51f92128-e0cd-4a74-9573-6e209f32a787)
+<img src = https://github.com/Kamaljit12/Pyspark/blob/main/images/spark_action.png>
 
 # Read & Write operation in Spark are Transformation/Action?
 ### Reading and writing operations in Spark are often viewed as actions, but they're a bit unique. Let's clarify this:
@@ -190,7 +192,7 @@ and result in data being written to an external system.
 
 # Lineage Graph or DAG in Spark
 
-![image](https://github.com/Kamaljit12/Pyspark/assets/89628021/0462e8d1-f11c-454e-92d7-eb0c2804e4dc)
+<img src = https://github.com/Kamaljit12/Pyspark/blob/main/images/lineage.png>
 
 # Job, Stage and Task in Spark
 - Job: A job in Spark represents a single action (like count, collect, save, etc.) from a Spark application. When an action is 
@@ -208,7 +210,7 @@ tasks within a stage can be run in parallel.
 
 # How DAG looks on Spark Web UI?
 
-![image](https://github.com/Kamaljit12/Pyspark/assets/89628021/e580bdfb-a0e1-4589-be47-49053a6a6bc4)
+<img src = https://github.com/Kamaljit12/Pyspark/blob/main/images/spark_view.png>
 
 # Example 
     from pyspark.sql import SparkSession
