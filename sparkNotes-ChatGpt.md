@@ -208,3 +208,24 @@ print(df.storageLevel)
 ```
 
 This means that the DataFrame is persisted in memory and disk as serialized objects and has a replication factor of 2¹⁴.
+
+# What is the difference between cache() and persist()?
+
+The difference between cache() and persist() in PySpark is that cache() only stores data in memory, while persist() allows you to choose where to store the data. Additionally, persist() allows you to choose the level of persistence, from MEMORY_ONLY to MEMORY_AND_DISK_SER_2³.
+
+cache() is a synonym of persist(MEMORY_ONLY), which means it stores the data in memory only and does not spill to disk if there is not enough space². cache() is useful for fast and frequent access to the data, but it can cause memory pressure and garbage collection issues if the data is too large⁴ .
+
+persist() is a more general method that can take an optional argument storageLevel to specify where and how the data will be stored⁴. The storageLevel can be one of the following¹:
+
+- MEMORY_ONLY: Store data in memory as deserialized objects. This is the same as cache().
+- MEMORY_ONLY_SER: Store data in memory as serialized objects. This can save space but increase the cost of deserialization.
+- MEMORY_AND_DISK: Store data in memory as deserialized objects. If there is not enough space, spill to disk.
+- MEMORY_AND_DISK_SER: Store data in memory as serialized objects. If there is not enough space, spill to disk.
+- DISK_ONLY: Store data on disk only.
+- MEMORY_ONLY_2, MEMORY_ONLY_SER_2, etc.: Same as the previous levels, but replicate each partition on two nodes for fault tolerance.
+
+persist() is useful for controlling the trade-off between memory, disk, and CPU usage. It can also help to avoid recomputing the data if it is lost or evicted⁴ .
+
+
+# What are some best practices for caching and persisting in PySpark?
+
