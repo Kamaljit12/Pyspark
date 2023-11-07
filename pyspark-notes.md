@@ -84,7 +84,7 @@ storage and processing needs.
 - Resilient:
   - Fault tolerant and is capable of rebuilding data on failure
 - Distributed: - Distributed data among the multiple nodes in a cluster
-  - Dataset: Collection of partitioned data with values
+- Dataset: Collection of partitioned data with values
 ## Resilient Distributed Datasets (RDD) are a core abstraction in Apache Spark. Here are some key points about RDDs  and their properties:
  1. Fundamental Data Structure:
     -RDD is the fundamental data structure of Spark, which allows it to efficiently 
