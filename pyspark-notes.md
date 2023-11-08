@@ -83,8 +83,10 @@ storage and processing needs.
 ## RDDs are the building blocks of any Spark application. RDDs Stands for:
 - Resilient:
   - Fault tolerant and is capable of rebuilding data on failure
-- Distributed: - Distributed data among the multiple nodes in a cluster
-- Dataset: Collection of partitioned data with values
+- Distributed:
+  - Distributed data among the multiple nodes in a cluster
+- Dataset:
+  - Collection of partitioned data with values
 ## Resilient Distributed Datasets (RDD) are a core abstraction in Apache Spark. Here are some key points about RDDs  and their properties:
  1. Fundamental Data Structure:
     -RDD is the fundamental data structure of Spark, which allows it to efficiently 
@@ -134,14 +136,16 @@ and the default block size of the file system. In general, each partition corres
 
 
 # Transformation in Spark
-### In Spark, a transformation is an operation applied on an RDD (Resilient Distributed Dataset) or DataFrame/Dataset to create a  new RDD or DataFrame/Dataset. Transformations in Spark are categorized into two types: narrow and wide transformations. Narrow Transformations: In these transformations, all elements that are required to compute the records in a single partition live in the same partition of the parent RDD. Data doesn't need to be shuffled across partitions. Examples include:
-- map(): Applies a function to each element in the RDD and outputs a new RDD.
-- filter(): Creates a new RDD by selecting only the elements of the original RDD that pass a function's condition.
-- flatMap(): Function in Spark applies a function to each element of an RDD, then flattens the multiple outputs into a single 
-RDD.
-- sample(): Create a sample dataset from the original data.
+#### In Spark, a transformation is an operation applied on an RDD (Resilient Distributed Dataset) or DataFrame/Dataset to create a  new RDD or DataFrame/Dataset. Transformations in Spark are categorized into two types: narrow and wide transformations. 
+## Narrow Transformations: 
+#### In these transformations, all elements that are required to compute the records in a single partition live in the same partition of the parent RDD. Data doesn't need to be shuffled across partitions. Examples include:
+ - map(): Applies a function to each element in the RDD and outputs a new RDD.
+ - filter(): Creates a new RDD by selecting only the elements of the original RDD that pass a function's condition.
+ - flatMap(): Function in Spark applies a function to each element of an RDD, then flattens the multiple outputs into a single 
+ RDD.
+ - sample(): Create a sample dataset from the original data.
 ## Wide Transformations: 
-  - These transformations will have input data from multiple partitions. This typically involves shuffling all the data across multiple partitions. Examples include:
+#### These transformations will have input data from multiple partitions. This typically involves shuffling all the data across multiple partitions. Examples include:
 - groupByKey(): Groups all the values of each key in the RDD into a single sequence.
 - reduceByKey(): Performs a reduction operation for each key in the RDD.
 - join(): Joins two RDDs based on a common key, similar to the SQL JOIN operation.
@@ -173,7 +177,7 @@ in the local filesystem, HDFS, or any other Hadoop-supported file system.
 <img src = https://github.com/Kamaljit12/Pyspark/blob/main/images/spark_action.png>
 
 # Read & Write operation in Spark are Transformation/Action?
-### Reading and writing operations in Spark are often viewed as actions, but they're a bit unique. Let's clarify this:
+#### Reading and writing operations in Spark are often viewed as actions, but they're a bit unique. Let's clarify this:
 - Read Operation: Reading data in Spark, such as from a file, a database, or another data source, is typically not 
 considered a transformation or an action. Rather, it's an initialization step that creates an RDD or DataFrame/Dataset, 
 upon which transformations and actions are applied. However, this read operation triggers a job execution if it's a "first 
@@ -183,12 +187,12 @@ saveAsTextFile(), saveAsSequenceFile(), saveAsObjectFile(), or DataFrame/Dataset
 and result in data being written to an external system.
 # Lazy Evaluation in Spark
 
-### Lazy evaluation in Spark means that the execution doesn't start until an action is triggered. In Spark, transformations are  lazily evaluated, meaning that the system records how to compute the new RDD (or DataFrame/Dataset) from the existing one  without performing any transformation. The transformations are only actually computed when an action is called and the data is  required. 
+#### Lazy evaluation in Spark means that the execution doesn't start until an action is triggered. In Spark, transformations are  lazily evaluated, meaning that the system records how to compute the new RDD (or DataFrame/Dataset) from the existing one  without performing any transformation. The transformations are only actually computed when an action is called and the data is  required. 
 
 # Lineage Graph or DAG in Spark
-### Spark represents a sequence of transformations on data as a DAG, a concept borrowed from mathematics and computer science. A DAG is a directed graph with no cycles, and it represents a finite set of transformations on data with multiple stages. The nodes of the graph represent the RDDs or DataFrames/Datasets, and the edges represent the transformations or operations applied.
+#### Spark represents a sequence of transformations on data as a DAG, a concept borrowed from mathematics and computer science. A DAG is a directed graph with no cycles, and it represents a finite set of transformations on data with multiple stages. The nodes of the graph represent the RDDs or DataFrames/Datasets, and the edges represent the transformations or operations applied.
 
-### Each action on an RDD (or DataFrame/Dataset) triggers the creation of a new DAG. The DAG is optimized by the Catalyst  optimizer (in case of DataFrame/Dataset) and then it is sent to the DAG scheduler, which splits the graph into stages of tasks.
+#### Each action on an RDD (or DataFrame/Dataset) triggers the creation of a new DAG. The DAG is optimized by the Catalyst  optimizer (in case of DataFrame/Dataset) and then it is sent to the DAG scheduler, which splits the graph into stages of tasks.
 
 # Lineage Graph or DAG in Spark
 
@@ -247,3 +251,126 @@ tasks within a stage can be run in parallel.
 ## Job 2:
 #### <b>Triggered by the write.csv()</b> action. This job consists of one stage: 
 #### The select() transformation and the write.csv() action do not require a shuffle and therefore do not trigger a new stage within Job 2.
+
+# What if our cluster capacity is less than the size of data to be processed?
+#### If your cluster memory capacity is less than the size of the data to be processed, Spark can still handle it by leveraging its ability to perform computations on disk and spilling data from memory to disk when necessary. Let's break down how Spark will handle a 60  GB data load with a 30 GB memory cluster:
+- Data Partitioning:
+  - When Spark reads a 60 GB file from HDFS, it partitions the data into manageable blocks, according to 
+the Hadoop configuration parameter dfs.blocksize or manually specified partitions. These partitions can be processed 
+independently.
+- Loading Data into Memory:
+  - Spark will load as many partitions as it can fit into memory. It starts processing these 
+partitions. The size of these partitions is much smaller than the total size of your data (60 GB), allowing Spark to work within 
+the confines of your total memory capacity (30 GB in this case).
+- Spill to Disk:
+  - When the memory is full, and Spark needs to load new partitions for processing, it uses a mechanism called 
+"spilling" to free up memory. Spilling means writing data to disk. The spilled data is the intermediate data generated during 
+shuffling operations, which needs to be stored for further stages.
+- On-Disk Computation:
+  - Spark has the capability to perform computations on data that is stored on disk, not just in memory. 
+Although computations on disk are slower than in memory, it allows Spark to handle datasets that are larger than the total 
+memory capacity.
+- Sequential Processing:
+  - The stages of the job are processed sequentially, meaning Spark doesn't need to load the entire 
+dataset into memory at once. Only the data required for the current stage needs to be in memory or disk.
+Spark Architecture & Its components
+
+######################################################################
+
+# Spark Architecture & Its components
+- Driver Program:
+  - The driver program is the heart of a Spark application. It runs the main() function of an application and is 
+the place where the SparkContext is created. SparkContext is responsible for coordinating and monitoring the execution of 
+tasks. The driver program defines datasets and applies operations (transformations & actions) on them.
+- SparkContext:
+  - The SparkContext is the main entry point for Spark functionality. It represents the connection to a Spark 
+cluster and can be used to create RDDs, accumulators, and broadcast variables on that cluster.
+- Cluster Manager:
+  - SparkContext connects to the cluster manager, which is responsible for the allocation of resources 
+(CPU, memory, etc.) in the cluster. The cluster manager can be Spark's standalone manager, Hadoop YARN, Mesos, or 
+Kubernetes.
+- Executors:
+ - Executors are worker nodes' processes in charge of running individual tasks in a given Spark job. They run 
+concurrently across different nodes. Executors have two roles. Firstly, they run tasks that the driver sends. Secondly, they 
+provide in-memory storage for RDDs.
+- Tasks:
+  - Tasks are the smallest unit of work in Spark. They are transformations applied to partitions. Each task works on a 
+separate partition and is executed in a separate thread in executors.
+- RDD:
+  - Resilient Distributed Datasets (RDD) are the fundamental data structures of Spark. They are an immutable distributed 
+collection of objects, which can be processed in parallel. RDDs can be stored in memory between queries without the 
+necessity for serialization.
+- DAG (Directed Acyclic Graph):
+  - Spark represents a series of transformations on data as a DAG, which helps it optimize 
+the execution plan. DAG enables pipelining of operations and provides a clear plan for task scheduling.
+- DAG Scheduler:
+  - The Directed Acyclic Graph (DAG) Scheduler is responsible for dividing operator graphs into stages and 
+sending tasks to the Task Scheduler. It translates the data transformations from the logical plan (which represents a 
+sequence of transformations) into a physical execution plan. It optimizes the plan by rearranging and combining operations 
+where possible, groups them into stages, and then submits the stages to the Task Scheduler.
+- Task Scheduler:
+  - The Task Scheduler launches tasks via cluster manager. Tasks are the smallest unit of work in Spark, 
+sent by the DAG Scheduler to the Task Scheduler. The Task Scheduler then launches the tasks on executor JVMs. Tasks 
+for each stage are launched in as many parallel operations as there are partitions for the dataset.
+- Master:
+  - The Master is the base of a Spark Standalone cluster (specific to Spark's standalone mode, not applicable if 
+Spark is running on YARN or Mesos). It's the central point and entry point of the Spark cluster. It is responsible for 
+managing and distributing tasks to the workers. The Master communicates with each of the workers periodically to check if 
+it is still alive and if it has completed tasks.
+- Worker:
+  - The Worker is a node in the Spark Standalone cluster (specific to Spark's standalone mode). It receives tasks 
+from the Master and executes them. Each worker has multiple executor JVMs running on it. It communicates with the 
+Master and Executors to facilitate task execution. The worker is responsible for managing resources and providing an 
+execution environment for the executor JVMs.
+
+### If Spark is running on YARN (Yet Another Resource Negotiator), the concept of a "master" node doesn't directly apply in 
+the same way it does in Spark's standalone mode. Instead, resource management, scheduling and coordination are 
+handled by YARN's own components.
+
+# Spark With Standalone Cluster Manager Type
+
+##################################################################
+
+###################################################################
+
+# Spark With YARN Cluster Manager Type
+- Resource Manager:
+  - It controls the allocation of system resources on all applications. A Scheduler and an
+Application Master are included. Applications receive resources from the Scheduler.
+- Node Manager:
+  - Each job or application needs one or more containers, and the Node Manager monitors these
+containers and their usage. Node Manager consists of an Application Master and Container. The Node
+Manager monitors the containers and resource usage, and this is reported to the Resource Manager.
+- Application Master:
+  - The ApplicationMaster (AM) is an instance of a framework-specific library and serves as the 
+orchestrating process for an individual application in a distributed environment.
+# Deployment Modes Of Spark
+- Client Mode:
+  - When u start a spark shell, application driver creates the spark session in your local machine which request 
+to Resource Manager present in cluster to create Yarn application. YARN Resource Manager start an Application Master 
+(AM container). For client mode Application Master acts as the Executor launcher. Application Master will reach to Resource 
+Manager and request for further containers. Resource manager will allocate new containers.
+
+#### These executors will directly communicate with Drivers which is present in the system in which you have submitted the 
+spark application.
+
+##############################################################################
+
+- Cluster Mode:  
+ - For cluster mode, there’s a small difference compare to client mode in place of driver. Here Application 
+Master will create driver in it and driver will reach to Resource Manager.
+
+############################################
+
+- Local Mode:
+  - In local mode, Spark runs on a single machine, using all the cores of the machine. It is the simplest mode of 
+deployment and is mostly used for testing and debugging.
+
+##############################################
+
+# How Spark Job Runs Internally ?
+
+
+
+
+
