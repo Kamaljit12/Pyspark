@@ -353,8 +353,7 @@ to Resource Manager present in cluster to create Yarn application. YARN Resource
 (AM container). For client mode Application Master acts as the Executor launcher. Application Master will reach to Resource 
 Manager and request for further containers. Resource manager will allocate new containers.
 
-#### These executors will directly communicate with Drivers which is present in the system in which you have submitted the 
-spark application.
+#### These executors will directly communicate with Drivers which is present in the system in which you have submitted the spark application.
 
 <img src = https://github.com/Kamaljit12/Pyspark/blob/main/images/deployment%20of%20spark.jpg>
 
