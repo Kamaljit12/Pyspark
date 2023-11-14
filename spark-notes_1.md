@@ -333,7 +333,7 @@ handled by YARN's own components.
 
 # Spark With YARN Cluster Manager Type
 
-![yarn architecture](https://github.com/Kamaljit12/Pyspark/assets/89628021/50bde34c-b470-4327-9c3c-fa3539ecbe71)
+<img src = ![yarn architecture](https://github.com/Kamaljit12/Pyspark/assets/89628021/50bde34c-b470-4327-9c3c-fa3539ecbe71)>
 
 
 # Spark With YARN Cluster Manager Type
