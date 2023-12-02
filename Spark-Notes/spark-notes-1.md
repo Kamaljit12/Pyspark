@@ -1,6 +1,6 @@
 # Important Questions and answers\
 
-## 1.> The difference between RDD and DataFrame is a common question in Spark. RDD stands for Resilient Distributed Dataset, which is a distributed collection of data elements that can be stored in memory or disk across a cluster of nodes. DataFrame is a distributed collection of data organized into named columns, similar to a table in a relational database or a spreadsheet.
+The difference between RDD and DataFrame is a common question in Spark. RDD stands for Resilient Distributed Dataset, which is a distributed collection of data elements that can be stored in memory or disk across a cluster of nodes. DataFrame is a distributed collection of data organized into named columns, similar to a table in a relational database or a spreadsheet.
 
 ## Main differences between RDD and DataFrame are:
 
